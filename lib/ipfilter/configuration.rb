@@ -15,7 +15,7 @@ module Ipfilter
 
         # Exceptions that should not be rescued by default
         # (if you want to implement custom error handling);
-        [:ip_exception, Exception.new],
+        [:ip_exception, Proc.new { Exception.new }],
 
         # Allow loopback Ip
         [:allow_loopback, true],

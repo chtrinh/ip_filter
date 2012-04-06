@@ -32,7 +32,7 @@ module Ipfilter
           loopback = self.class.allow_loopback? ? (code_to_validate != "N/A") : true
 
           if loopback && !Array.wrap(self.class.codes).include?(code_to_validate)
-            raise Ipfilter::Configuration.ip_exception
+            Ipfilter::Configuration.ip_exception.call
           end
         end
       end

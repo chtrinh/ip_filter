@@ -44,7 +44,8 @@ At the command prompt:
   Ipfilter::Configuration.ip_codes = ["FI"]
 
   # Exception to throw when IP is NOT allowed.
-  Ipfilter::Configuration.ip_exception = Api::Exception::AuthorizationError.new("You region is blocked!")
+  # Accepts a Proc for fine-grain control of the appropriate response. 
+  Ipfilter::Configuration.ip_exception = Proc.new { Api::Exception::AuthorizationError.new("You region is blocked!") }
 
   # Cache object (Memcache only).
   Ipfilter::Configuration.cache = Rails.cache
