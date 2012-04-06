@@ -1,0 +1,126 @@
+= Ipfilter
+
+Ipfilter is geocoding filter solution for Ruby. This is typically use for DRM for a particular region or country. Uses a GeoIP (or Geo::IP) database to determine ip's location. 
+
+
+== Compatibility
+
+* Supports Ruby version: 1.9.2
+* Supports cache store: Memcache.
+* Supports Rails 3.
+
+
+== Install
+
+=== As a Gem
+
+Add to your Gemfile:
+
+  gem "ipfilter"
+
+and run at the command prompt:
+
+  bundle install
+
+
+=== Or As a Plugin
+
+At the command prompt:
+
+  rails plugin install git://github.com/chtrinh/ipfilter.git
+
+
+== Typical Rails Configuration
+
+  # config/initializers/ipfilter.rb
+
+  # Location of GeoIP database file.
+  Ipfilter::Configuration.geo_ip_dat = "lib/assets/GeoIP.dat"
+
+  # Type of ip country code to compare by.
+  Ipfilter::Configuration.ip_code_type = "country_code2"
+
+  # Allowable ip country code.
+  Ipfilter::Configuration.ip_codes = ["FI"]
+
+  # Exception to throw when IP is NOT allowed.
+  Ipfilter::Configuration.ip_exception = Api::Exception::AuthorizationError.new("You region is blocked!")
+
+  # Cache object (Memcache only).
+  Ipfilter::Configuration.cache = Rails.cache
+
+== Validate Ip
+
+Add the following method to any controller to validate the request#ip. Ipfilter::Configuration.ip_exception is raised when ip NOT within the specified region/country. You can specific actions as well exactally like a before_filter. 
+
+  validate_ip
+
+
+=== Overriding IP data 
+
+If you want to override the GeoIP data for whatever reason:
+
+  rake ipfilter:seed FILE=location/of/ip_data.yml
+
+You'll probably want to make sure you set the expiration of the keys for a very long time. 
+
+
+== IP YML 
+
+Example:  
+
+
+== Request Geocoding by IP Address
+
+Ipfilter adds a +location+ method to the standard <tt>Rack::Request</tt> object so you can easily look up the location of any HTTP request by IP address. For example, in a Rails controller or a Sinatra app:
+
+  # returns Ipfilter::Result object
+  result = request.location
+
+See "Advanced Geocoding" below for more information about Ipfilter::Result objects.
+
+
+== Advanced Geocoding
+
+So far we have looked at shortcuts for assigning geocoding results to object attributes.
+
+Every <tt>Ipfilter::Result</tt> object, +result+, provides the following data:
+
+* <tt>result.ip</tt> - string
+* <tt>result.country_code</tt> - string
+* <tt>result.country_code2</tt> - string
+* <tt>result.coordinates</tt> - string
+* <tt>result.country_code3</tt> - string
+* <tt>result.country_name</tt> - string
+* <tt>result.continent_code</tt> - string
+
+
+== Caching
+
+It's easy to cache ip results with Ipfilter, just configure a cache store:
+
+  Ipfilter::Configuration.cache = Rails.cache
+
+Currently only Memcache is supported. 
+
+You can also set a custom prefix to be used for cache keys:
+
+  Ipfilter::Configuration.cache_prefix = "..."
+
+By default the prefix is <tt>ipfilter:</tt>
+
+<i>Before you implement caching in your app please be sure that doing so does not violate the Terms of Service for your geocoding service.</i>
+
+
+== Use Outside of Rails
+
+You can use Ipfilter outside of Rails by calling the <tt>Ipfilter.search</tt> method:
+
+  results = Ipfilter.search("147.243.3.83")
+
+This returns an array of <tt>Ipfilter::Result</tt> objects. Please see above and in the code for details.
+
+
+== Acknowledgements
+
+The architecture/design of this gem is heavily based off of Geocoder (by Alex Reisner https://github.com/alexreisner/geocoder). Whereas Geocoder was built with 3rd party API resources in mind, Ipfilter uses a local database file (.dat) similar to Geoip (by Clifford Heath https://github.com/cjheath/geoip).
