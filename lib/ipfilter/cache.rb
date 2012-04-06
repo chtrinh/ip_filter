@@ -27,7 +27,7 @@ module Ipfilter
     def []=(ip, value)
       case
         when store.respond_to?(:write)
-          store.write key_for(ip)
+          store.write key_for(ip), value
         when store.respond_to?(:[]=)
           store[key_for(ip)] = value
         when store.respond_to?(:set)
