@@ -8,8 +8,14 @@ module Ipfilter
       end
 
       module ClassMethods
-        def validate_ip(filter_options = {})
-          before_filter :check_ip_location, filter_options
+        def validate_ip(filter_options = {}, &block)
+          if block 
+            before_filter filter_options do |controller|
+              controller.check_ip_location(block)
+            end
+          else
+            before_filter :check_ip_location, filter_options
+          end
         end
    
         def code_type
@@ -26,13 +32,13 @@ module Ipfilter
       end
    
       module InstanceMethods
-        def check_ip_location
+        def check_ip_location(block = nil)
           code_to_validate = request.location[self.class.code_type]
 
           loopback = self.class.allow_loopback? ? (code_to_validate != "N/A") : true
 
           if loopback && !Array.wrap(self.class.codes).include?(code_to_validate)
-            Ipfilter::Configuration.ip_exception.call
+            block ? block.call : Ipfilter::Configuration.ip_exception.call
           end
         end
       end

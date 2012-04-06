@@ -52,9 +52,15 @@ At the command prompt:
 
 == Validate Ip
 
-Add the following method to any controller to validate the request#ip. Ipfilter::Configuration.ip_exception is raised when ip NOT within the specified region/country. You can specific actions as well exactally like a before_filter. 
+Add the following method to any controller to validate the request#ip. Ipfilter::Configuration.ip_exception is raised when ip NOT within the specified region/country. You can specific actions as well similar to a before_filter. 
 
   validate_ip
+
+You can also pass a block (with filter options) to be executed when validation of ip fails like so (defaults to Ipfilter::Configuration.ip_exception if no block present): 
+
+  validate_ip do 
+    raise Exception.new "Sorry access not granted!"
+  end
 
 By default, loopback addresses are allowed. You can disable this in like so: 
 
@@ -104,7 +110,6 @@ Every <tt>Ipfilter::Result</tt> object, +result+, provides the following data:
 * <tt>result.ip</tt> - string
 * <tt>result.country_code</tt> - string
 * <tt>result.country_code2</tt> - string
-* <tt>result.coordinates</tt> - string
 * <tt>result.country_code3</tt> - string
 * <tt>result.country_name</tt> - string
 * <tt>result.continent_code</tt> - string
