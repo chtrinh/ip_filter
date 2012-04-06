@@ -17,6 +17,9 @@ module Ipfilter
         # (if you want to implement custom error handling);
         [:ip_exception, Exception.new],
 
+        # Allow loopback Ip
+        [:allow_loopback, true],
+
         # cache object (must respond to #[], #[]=, and #keys)
         [:cache, nil],
 

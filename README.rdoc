@@ -55,6 +55,11 @@ Add the following method to any controller to validate the request#ip. Ipfilter:
 
   validate_ip
 
+By default, loopback addresses are allowed. You can disable this in like so: 
+
+  #config/initializers/ipfilter.rb
+
+  Ipfilter::Configuration.allow_loopback = false
 
 === Overriding IP data 
 

@@ -19,12 +19,19 @@ module Ipfilter
         def codes
           @codes ||= Ipfilter::Configuration.ip_codes
         end
+
+        def allow_loopback?
+          @allow_loopback ||= Ipfilter::Configuration.allow_loopback
+        end
       end
    
       module InstanceMethods
         def check_ip_location
           code_to_validate = request.location[self.class.code_type]
-          if code_to_validate != "N/A" && !Array.wrap(self.class.codes).include?(code_to_validate)
+
+          loopback = self.class.allow_loopback? ? (code_to_validate != "N/A") : true
+
+          if loopback && !Array.wrap(self.class.codes).include?(code_to_validate)
             raise Ipfilter::Configuration.ip_exception
           end
         end
