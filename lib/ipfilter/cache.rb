@@ -35,8 +35,6 @@ module Ipfilter
       end
     end
 
-    private
-
     # Cache key for a given URL.
     def key_for(ip)
       [prefix, ip].join

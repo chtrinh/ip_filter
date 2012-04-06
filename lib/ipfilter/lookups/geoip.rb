@@ -10,7 +10,7 @@ module Ipfilter::Lookup
     def fetch_data(query, reverse = false)
       unless cache && data = cache[query]
         data = geo_ip_lookup.country(query)
-        cache[url] = data if cache
+        cache[query] = data if cache
       end
       data
     end
