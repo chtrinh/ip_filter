@@ -70,11 +70,20 @@ If you want to override the GeoIP data for whatever reason:
 
 You'll probably want to make sure you set the expiration of the keys for a very long time. 
 
+See "IP YML" below for more information
 
-== IP YML 
+== IP YML
+
+Make sure all keys that are going to be in use have values, all keys ommitted will have value of nil.
 
 Example:  
 
+  # lib/assets/ip_seed.yml
+
+  ---
+  1.2.3.4: { country_code2: "IN", country_code3: "IND", country_name: "India", continent_code: "AS" }
+  1.4.4.1: { country_code3: "IND", country_name: "India", continent_code: "AS" }
+  1.2.43.32: { country_code2: "IN", country_code3: "IND" }
 
 == Request Geocoding by IP Address
 
