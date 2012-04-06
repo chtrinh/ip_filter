@@ -1,6 +1,6 @@
 = Ipfilter
 
-Ipfilter is geocoding filter solution for Ruby. This is typically use for DRM for a particular region or country. Uses a GeoIP (or Geo::IP) database to determine ip's location. 
+Ipfilter is geocoding filter solution for Ruby. This is typically use for DRM. Uses a GeoIP (or Geo::IP) database to determine the request ip's location.
 
 
 == Compatibility
@@ -52,11 +52,12 @@ At the command prompt:
 
 == Validate Ip
 
-Add the following method to any controller to validate the request#ip. Ipfilter::Configuration.ip_exception is raised when ip NOT within the specified region/country. You can specific actions as well similar to a before_filter. 
+Add the following method to any controller to validate the <tt>Request#ip<tt>. 
+<tt>Ipfilter::Configuration.ip_exception<tt> is a +Proc+ which is called when ip is NOT within the specified region/country. You can pass in filter options similar to those in +before_filter+. 
 
   validate_ip
 
-You can also pass a block (with filter options) to be executed when validation of ip fails like so (defaults to Ipfilter::Configuration.ip_exception if no block present): 
+You can also pass a block (with filter options) to be executed when validation of ip fails like so (defaults to <tt>Ipfilter::Configuration.ip_exception<tt> proc if no block present): 
 
   validate_ip do 
     raise Exception.new "Sorry access not granted!"
@@ -68,6 +69,7 @@ By default, loopback addresses are allowed. You can disable this in like so:
 
   Ipfilter::Configuration.allow_loopback = false
 
+
 === Overriding IP data 
 
 If you want to override the GeoIP data for whatever reason:
@@ -78,9 +80,10 @@ You'll probably want to make sure you set the expiration of the keys for a very 
 
 See "IP YML" below for more information
 
+
 == IP YML
 
-Make sure all keys that are going to be in use have values, all keys ommitted will have value of nil.
+Make sure all keys that are going to be in use have values, all keys omitted will have value of nil.
 
 Example:  
 
@@ -91,9 +94,10 @@ Example:
   1.4.4.1: { country_code3: "IND", country_name: "India", continent_code: "AS" }
   1.2.43.32: { country_code2: "IN", country_code3: "IND" }
 
+
 == Request Geocoding by IP Address
 
-Ipfilter adds a +location+ method to the standard <tt>Rack::Request</tt> object so you can easily look up the location of any HTTP request by IP address. For example, in a Rails controller or a Sinatra app:
+Ipfilter adds a +location+ method to the standard <tt>Rack::Request</tt> object so you can easily look up the location of any HTTP request by IP address. For example, in a Rails controller:
 
   # returns Ipfilter::Result object
   result = request.location
@@ -143,4 +147,5 @@ This returns an array of <tt>Ipfilter::Result</tt> objects. Please see above and
 
 == Acknowledgements
 
-The architecture/design of this gem is heavily based off of Geocoder (by Alex Reisner https://github.com/alexreisner/geocoder). Whereas Geocoder was built with 3rd party API resources in mind, Ipfilter uses a local database file (.dat) similar to Geoip (by Clifford Heath https://github.com/cjheath/geoip).
+The architecture/design of this gem is heavily based off of Geocoder (by Alex Reisner https://github.com/alexreisner/geocoder). 
+Whereas Geocoder was built with 3rd party API resources in mind, Ipfilter uses a local database file (.dat) similar to Geoip (by Clifford Heath https://github.com/cjheath/geoip).
