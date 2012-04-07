@@ -13,6 +13,9 @@ module Ipfilter
         # Must be of the corresponding format as :ip_code_type
         [:ip_codes, []],
 
+        # Whitelist of IPs
+        [:ip_whitelist, []],
+
         # Exceptions that should not be rescued by default
         # (if you want to implement custom error handling);
         [:ip_exception, Proc.new { Exception.new }],

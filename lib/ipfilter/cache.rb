@@ -1,7 +1,6 @@
 module Ipfilter
 
-  # For now just a simple wrapper cache for a Memcache client.
-  # Cache keys should never be programmatically expired.
+  # For now just a simple wrapper class for a Memcache client.
   class Cache
 
     attr_reader :prefix, :store

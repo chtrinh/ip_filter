@@ -43,9 +43,12 @@ At the command prompt:
   # Allowable ip country code.
   Ipfilter::Configuration.ip_codes = ["FI"]
 
+  #Whitelist of IPs
+  Ipfilter::Configuration.ip_whitelist = ["1.3.1.4"]
+
   # Exception to throw when IP is NOT allowed.
   # Accepts a Proc for fine-grain control of the appropriate response. 
-  Ipfilter::Configuration.ip_exception = Proc.new { Api::Exception::AuthorizationError.new("You region is blocked!") }
+  Ipfilter::Configuration.ip_exception = Proc.new { raise Api::Exception::AuthorizationError.new("You region is blocked!") }
 
   # Cache object (Memcache only).
   Ipfilter::Configuration.cache = Rails.cache
@@ -75,25 +78,7 @@ By default, loopback/private network addresses are allowed. You can disable this
 
 If you want to override the GeoIP data for whatever reason:
 
-  rake ipfilter:seed FILE=location/of/ip_data.yml
-
-You'll probably want to make sure you set the expiration of the keys for a very long time. 
-
-See "IP YML" below for more information
-
-
-== IP YML
-
-Make sure all keys that are going to be in use have values, all keys omitted will have value of nil.
-
-Example:  
-
-  # lib/assets/ip_seed.yml
-
-  ---
-  1.2.3.4: { country_code2: "IN", country_code3: "IND", country_name: "India", continent_code: "AS" }
-  1.4.4.1: { country_code3: "IND", country_name: "India", continent_code: "AS" }
-  1.2.43.32: { country_code2: "IN", country_code3: "IND" }
+  Ipfilter::Configuration.ip_whitelist = ["22.33.11.44", "2.3.1.4"]
 
 
 == Request Geocoding by IP Address

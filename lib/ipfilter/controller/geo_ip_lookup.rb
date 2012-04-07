@@ -23,7 +23,11 @@ module Ipfilter
         end
 
         def codes
-          @codes ||= Ipfilter::Configuration.ip_codes
+          @codes ||= Array.wrap(Ipfilter::Configuration.ip_codes)
+        end
+
+        def whitelist
+          @whitelist ||= Array.wrap(Ipfilter::Configuration.ip_whitelist)
         end
 
         def allow_loopback?
@@ -40,6 +44,13 @@ module Ipfilter
           if loopback && !Array.wrap(self.class.codes).include?(code_to_validate)
             block ? block.call : Ipfilter::Configuration.ip_exception.call
           end
+        end
+
+        def not_valid_ip? 
+          code_to_validate = request.location[self.class.code_type]
+
+          loopback = self.class.allow_loopback? ? (code_to_validate != "N/A") : true
+          loopback && !self.class.whitelist.include?(request.ip) && self.class.codes.include?(code_to_validate)
         end
       end
     end

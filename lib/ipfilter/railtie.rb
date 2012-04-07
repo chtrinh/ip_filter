@@ -10,16 +10,14 @@ module Ipfilter
           Ipfilter::Railtie.insert
         end
       end
-      rake_tasks do
-        load "tasks/ipfilter.rake"
-      end
     end
   end
 
   class Railtie
     def self.insert
       if defined?(::ActionController)
-        ::ActionController::Base.send :include, Controller::GeoIpLookup      end
+        ::ActionController::Base.send :include, Controller::GeoIpLookup
+      end
     end
   end
 end
