@@ -11,6 +11,10 @@ module Ipfilter
         @data[attribute]
       end
 
+      def to_hash
+        @data
+      end
+
       def country_code
         raise NotImplementedError.new
       end
