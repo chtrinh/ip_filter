@@ -54,7 +54,7 @@ At the command prompt:
   Ipfilter::Configuration.cache = Rails.cache
 
 
-== Validate Ip
+== Validate IP
 
 Add the following method to any controller to validate the <tt>Request#ip</tt>. 
 <tt>Ipfilter::Configuration.ip_exception</tt> is a +Proc+ which is called when ip is NOT within the specified region/country. You can pass in filter options similar to those in +before_filter+. 
@@ -74,9 +74,25 @@ By default, loopback/private network addresses are allowed. You can disable this
   Ipfilter::Configuration.allow_loopback = false
 
 
-=== Overriding IP data 
+== Skip validation of IP
 
-If you want to override the GeoIP data for whatever reason:
+Add the following method to any controller that contains <tt>validate_ip</tt> to skip over the
+validation.
+
+  skip_validate_ip
+
+You can pass a block to be executed when validation of ip should be skipped the block will be evaluated as a boolean value.
+
+  skip_validate_ip(:only => [:index, :show]) do
+    account.roles == "admin"
+  end
+
+Internally it is just <tt>skip_before_filter</tt> so filter options can be pass to it as well.
+
+
+=== Whitelist IP
+
+If you want to whitelist ips:
 
   Ipfilter::Configuration.ip_whitelist = ["22.33.11.44", "2.3.1.4"]
 

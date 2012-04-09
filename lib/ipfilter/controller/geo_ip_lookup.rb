@@ -17,6 +17,14 @@ module Ipfilter
             before_filter :check_ip_location, filter_options
           end
         end
+
+        def skip_validate_ip(filter_options = {}, &block)
+          if block
+            skip_before_filter(:check_ip_location, filter_options) if !!block.call
+          else
+            skip_before_filter(:check_ip_location, filter_options)
+          end
+        end
    
         def code_type
           @code_type ||= Ipfilter::Configuration.ip_code_type
