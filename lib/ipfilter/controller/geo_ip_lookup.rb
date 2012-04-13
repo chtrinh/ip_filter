@@ -18,12 +18,8 @@ module Ipfilter
           end
         end
 
-        def skip_validate_ip(filter_options = {}, &block)
-          if block
-            skip_before_filter(:check_ip_location, filter_options) if !!block.call
-          else
-            skip_before_filter(:check_ip_location, filter_options)
-          end
+        def skip_validate_ip(filter_options = {})
+          skip_before_filter(:check_ip_location, filter_options)
         end
    
         def code_type
