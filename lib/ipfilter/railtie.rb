@@ -5,8 +5,8 @@ module Ipfilter
   if defined? Rails::Railtie
     require 'rails'
     class Railtie < Rails::Railtie
-      initializer 'ipfilter.insert_into_active_controller' do
-        ActiveSupport.on_load :active_controller do
+      initializer 'ipfilter.insert_into_action_controller' do
+        ActiveSupport.on_load :action_controller do
           Ipfilter::Railtie.insert
         end
       end
@@ -15,8 +15,8 @@ module Ipfilter
 
   class Railtie
     def self.insert
-      if defined?(::ActionController)
-        ::ActionController::Base.send :include, Controller::GeoIpLookup
+      if defined?(::ActionController::Metal)
+        ::ActionController::Metal.send :include, Controller::GeoIpLookup
       end
     end
   end
