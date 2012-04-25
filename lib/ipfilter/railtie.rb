@@ -15,8 +15,8 @@ module Ipfilter
 
   class Railtie
     def self.insert
-      if defined?(::ActionController::Metal)
-        ::ActionController::Metal.send :include, Controller::GeoIpLookup
+      if defined?(::ActionController::Base)
+        ::ActionController::Base.send :include, Controller::GeoIpLookup
       end
     end
   end

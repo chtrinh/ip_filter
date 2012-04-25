@@ -3,7 +3,7 @@ require 'ipfilter'
 module Ipfilter
   module Request
     def location
-      # For now just grab the first value as the best guess. 
+      # For now just grab the first value as the best guess.
       @location ||= Ipfilter.search(ip).first
     end
   end

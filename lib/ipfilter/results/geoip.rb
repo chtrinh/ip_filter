@@ -8,7 +8,7 @@ module Ipfilter::Result
 
     response_attributes.each do |a|
       define_method a do
-        @data[a]
+        @data[a.to_sym]
       end
     end
   end

@@ -23,15 +23,15 @@ module Ipfilter
         end
    
         def code_type
-          @code_type ||= Ipfilter::Configuration.ip_code_type
+          @code_type ||= Ipfilter::Configuration.ip_code_type.to_sym
         end
 
         def codes
-          @codes ||= Array.wrap(Ipfilter::Configuration.ip_codes)
+          raise NotImplementedError.new("ApplicationController::Base#codes")
         end
 
         def whitelist
-          @whitelist ||= Array.wrap(Ipfilter::Configuration.ip_whitelist)
+          raise NotImplementedError.new("ApplicationController::Base#whitelist")
         end
 
         def allow_loopback?
@@ -40,21 +40,27 @@ module Ipfilter
       end
    
       module InstanceMethods
+        private
+
         def check_ip_location(block = nil)
-          code_to_validate = request.location[self.class.code_type]
+          code  = request.location[self.class.code_type]
+          ip    = request.ip
 
-          loopback = self.class.allow_loopback? ? (code_to_validate != "N/A") : true
+          perform_check = self.class.allow_loopback? ? (code != "N/A") : true
 
-          if loopback && !Array.wrap(self.class.codes).include?(code_to_validate)
-            block ? block.call : Ipfilter::Configuration.ip_exception.call
+          if perform_check
+            unless valid_code?(code) || valid_ip?(ip)
+              block ? block.call : Ipfilter::Configuration.ip_exception.call
+            end
           end
         end
 
-        def not_valid_ip? 
-          code_to_validate = request.location[self.class.code_type]
+        def valid_code?(code)
+          Array.wrap(self.class.codes).include?(code)
+        end
 
-          loopback = self.class.allow_loopback? ? (code_to_validate != "N/A") : true
-          loopback && !self.class.whitelist.include?(request.ip) && self.class.codes.include?(code_to_validate)
+        def valid_ip?(ip)
+          Array.wrap(self.class.whitelist).include?(ip)
         end
       end
     end

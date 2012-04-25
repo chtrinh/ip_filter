@@ -40,12 +40,6 @@ At the command prompt:
   # Type of ip country code to compare by.
   Ipfilter::Configuration.ip_code_type = "country_code2"
 
-  # Allowable ip country code.
-  Ipfilter::Configuration.ip_codes = ["FI"]
-
-  #Whitelist of IPs
-  Ipfilter::Configuration.ip_whitelist = ["1.3.1.4"]
-
   # Exception to throw when IP is NOT allowed.
   # Accepts a Proc for fine-grain control of the appropriate response. 
   Ipfilter::Configuration.ip_exception = Proc.new { raise Api::Exception::AuthorizationError.new("You region is blocked!") }
@@ -54,10 +48,27 @@ At the command prompt:
   Ipfilter::Configuration.cache = Rails.cache
 
 
+== Whitelist Ip
+
+  # app/controller/application_controller.rb
+
+  class << self
+    def codes
+      # An array of country codes specified by Ipfilter::Configuration.ip_code_type
+      ["FI", "US", "GB"]
+    end
+
+    def whitelist
+      # An array of IP addresses you want to whitelist
+      ["22.33.11.44", "2.3.1.4"]
+    end
+  end
+
+
 == Validate IP
 
 Add the following method to any controller to validate the <tt>Request#ip</tt>. 
-<tt>Ipfilter::Configuration.ip_exception</tt> is a +Proc+ which is called when ip is NOT within the specified region/country. You can pass in filter options similar to those in +before_filter+. 
+<tt>Ipfilter::Configuration.ip_exception</tt> is a +Proc+ which is called when ip is NOT within the specified region/country code and NOT in IP whitelist. You can pass in filter options similar to those in +before_filter+. 
 
   validate_ip
 
@@ -84,13 +95,6 @@ validation.
 Internally it is just <tt>skip_before_filter</tt> so filter options can be pass to it as well.
 
   skip_validate_ip :only => [:index, :show], :if => lambda { account.roles == "admin" }
-
-
-=== Whitelist IP
-
-If you want to whitelist ips:
-
-  Ipfilter::Configuration.ip_whitelist = ["22.33.11.44", "2.3.1.4"]
 
 
 == Request Geocoding by IP Address

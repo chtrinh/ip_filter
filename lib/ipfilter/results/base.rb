@@ -8,7 +8,7 @@ module Ipfilter
       end
 
       def [](attribute)
-        @data[attribute]
+        @data[attribute.to_sym]
       end
 
       def to_hash

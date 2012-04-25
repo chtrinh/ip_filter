@@ -9,7 +9,7 @@ module Ipfilter::Lookup
 
     def fetch_data(query, reverse = false)
       unless cache && data = cache[query]
-        data = geo_ip_lookup.country(query)
+        data = geo_ip_lookup.country(query).to_hash
         cache[query] = data if cache
       end
       data
@@ -27,12 +27,12 @@ module Ipfilter::Lookup
 
     def reserved_result(ip)
       {
-        "ip"              => ip,
-        "country_code"    => "N/A",
-        "country_code2"   => "N/A",
-        "country_code3"   => "N/A",
-        "country_name"    => "N/A",
-        "continent_code"  => "N/A"
+        :ip              => ip,
+        :country_code    => "N/A",
+        :country_code2   => "N/A",
+        :country_code3   => "N/A",
+        :country_name    => "N/A",
+        :continent_code  => "N/A"
       }
     end
   end
