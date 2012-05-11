@@ -1,9 +1,9 @@
-require "ipfilter/configuration"
-require "ipfilter/cache"
-require "ipfilter/request"
-require "ipfilter/lookups/geoip"
+require "ip_filter/configuration"
+require "ip_filter/cache"
+require "ip_filter/request"
+require "ip_filter/lookups/geoip"
 
-module Ipfilter
+module IpFilter
   extend self
 
   # Search for information about an address.
@@ -27,7 +27,7 @@ module Ipfilter
 
   # Retrieve a Lookup object from the store.
   def get_lookup
-    @lookups ||= Ipfilter::Lookup::Geoip.new
+    @lookups ||= IpFilter::Lookup::Geoip.new
   end
 
   # Checks if value looks like an IP address.
@@ -45,6 +45,6 @@ module Ipfilter
 end
 
 if defined?(Rails)
-  require "ipfilter/railtie"
-  Ipfilter::Railtie.insert
+  require "ip_filter/railtie"
+  IpFilter::Railtie.insert
 end

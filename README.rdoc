@@ -73,7 +73,7 @@ You can also pass a block (with filter options) to be executed when validation o
 
 By default, loopback/private network addresses are allowed. You can disable this in like so: 
 
-  #config/initializers/ipfilter.rb
+  #config/initializers/ip_filter.rb
 
   IpFilter::Configuration.allow_loopback = false
 
@@ -126,7 +126,7 @@ You can also set a custom prefix to be used for cache keys:
 
   IpFilter::Configuration.cache_prefix = "..."
 
-By default the prefix is <tt>ipfilter:</tt>
+By default the prefix is <tt>ip_filter:</tt>
 
 <i>Before you implement caching in your app please be sure that doing so does not violate the Terms of Service for your geocoding service.</i>
 

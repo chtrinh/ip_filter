@@ -1,8 +1,8 @@
-require 'ipfilter/lookups/base'
-require 'ipfilter/results/geoip'
+require 'ip_filter/lookups/base'
+require 'ip_filter/results/geoip'
 require 'geoip'
 
-module Ipfilter::Lookup
+module IpFilter::Lookup
   class Geoip < Base
 
     private 
@@ -16,7 +16,7 @@ module Ipfilter::Lookup
     end
 
     def geo_ip_lookup
-      @geo_ip_lookup ||= GeoIP.new(Ipfilter::Configuration.geo_ip_dat)
+      @geo_ip_lookup ||= GeoIP.new(IpFilter::Configuration.geo_ip_dat)
     end
 
     def results(query, reverse = false)

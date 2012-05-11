@@ -1,4 +1,4 @@
-require 'ipfilter/results/base'
+require 'ip_filter/results/base'
 
 module IpFilter::Result
   class Geoip < Base
