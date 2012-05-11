@@ -11,10 +11,10 @@ module Ipfilter
         [:ip_code_type, nil],
 
         # Must be of the corresponding format as :ip_code_type
-        [:ip_codes, []],
+        [:ip_codes, Proc.new { }],
 
         # Whitelist of IPs
-        [:ip_whitelist, []],
+        [:ip_whitelist, Proc.new { }],
 
         # Exceptions that should not be rescued by default
         # (if you want to implement custom error handling);

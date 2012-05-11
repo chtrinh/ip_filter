@@ -40,6 +40,12 @@ At the command prompt:
   # Type of ip country code to compare by.
   Ipfilter::Configuration.ip_code_type = "country_code2"
 
+  # Accepts a proc that must return an array with corresponding format as :ip_code_type
+  Ipfilter::Configuration.ip_codes = Proc.new { ["FI", "US", "GB"] }
+
+  # Accepts a proc that must return an array of IPs to
+  Ipfilter::Configuration.ip_whitelist = Proc.new { ["22.33.11.44", "2.3.1.4"] }
+
   # Exception to throw when IP is NOT allowed.
   # Accepts a Proc for fine-grain control of the appropriate response. 
   Ipfilter::Configuration.ip_exception = Proc.new { raise Api::Exception::AuthorizationError.new("You region is blocked!") }
@@ -50,20 +56,7 @@ At the command prompt:
 
 == Whitelist Ip
 
-  # app/controller/application_controller.rb
-
-  class << self
-    def codes
-      # An array of country codes specified by Ipfilter::Configuration.ip_code_type
-      ["FI", "US", "GB"]
-    end
-
-    def whitelist
-      # An array of IP addresses you want to whitelist
-      ["22.33.11.44", "2.3.1.4"]
-    end
-  end
-
+See above configuration. 
 
 == Validate IP
 

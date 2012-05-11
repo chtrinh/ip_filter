@@ -27,11 +27,11 @@ module Ipfilter
         end
 
         def codes
-          raise NotImplementedError.new("ApplicationController::Base#codes")
+          Ipfilter::Configuration.ip_codes.call
         end
 
         def whitelist
-          raise NotImplementedError.new("ApplicationController::Base#whitelist")
+          Ipfilter::Configuration.ip_whitelist.call
         end
 
         def allow_loopback?
