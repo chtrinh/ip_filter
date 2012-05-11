@@ -1,4 +1,4 @@
-module Ipfilter
+module IpFilter
   class Configuration
 
     def self.options_and_defaults
@@ -27,7 +27,7 @@ module Ipfilter
         [:cache, nil],
 
         # prefix (string) to use for all cache keys
-        [:cache_prefix, "ipfilter:"]
+        [:cache_prefix, "ip_filter:"]
       ]
     end
 

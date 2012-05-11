@@ -1,4 +1,4 @@
-module Ipfilter 
+module IpFilter 
   module Controller
     module GeoIpLookup
       # Mix below class methods into ActionController.
@@ -23,19 +23,19 @@ module Ipfilter
         end
    
         def code_type
-          @code_type ||= Ipfilter::Configuration.ip_code_type.to_sym
+          @code_type ||= IpFilter::Configuration.ip_code_type.to_sym
         end
 
         def codes
-          Ipfilter::Configuration.ip_codes.call
+          IpFilter::Configuration.ip_codes.call
         end
 
         def whitelist
-          Ipfilter::Configuration.ip_whitelist.call
+          IpFilter::Configuration.ip_whitelist.call
         end
 
         def allow_loopback?
-          @allow_loopback ||= Ipfilter::Configuration.allow_loopback
+          @allow_loopback ||= IpFilter::Configuration.allow_loopback
         end
       end
    
@@ -50,7 +50,7 @@ module Ipfilter
 
           if perform_check
             unless valid_code?(code) || valid_ip?(ip)
-              block ? block.call : Ipfilter::Configuration.ip_exception.call
+              block ? block.call : IpFilter::Configuration.ip_exception.call
             end
           end
         end

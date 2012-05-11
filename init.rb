@@ -1,1 +1,1 @@
-require 'ipfilter'
+require 'ip_filter'

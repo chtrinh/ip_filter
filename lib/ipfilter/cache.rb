@@ -1,4 +1,4 @@
-module Ipfilter
+module IpFilter
 
   # For now just a simple wrapper class for a Memcache client.
   class Cache

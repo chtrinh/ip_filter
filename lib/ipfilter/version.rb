@@ -1,3 +1,3 @@
-module Ipfilter
-  VERSION = "0.0.2"
+module IpFilter
+  VERSION = "0.0.3"
 end

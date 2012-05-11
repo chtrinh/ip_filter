@@ -1,4 +1,4 @@
-module Ipfilter
+module IpFilter
   module Result
     class Base
       attr_accessor :data

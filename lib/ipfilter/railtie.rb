@@ -1,13 +1,13 @@
-require 'ipfilter'
-require 'ipfilter/controller/geo_ip_lookup'
+require 'ip_filter'
+require 'ip_filter/controller/geo_ip_lookup'
 
-module Ipfilter
+module IpFilter
   if defined? Rails::Railtie
     require 'rails'
     class Railtie < Rails::Railtie
-      initializer 'ipfilter.insert_into_action_controller' do
+      initializer 'ip_filter.insert_into_action_controller' do
         ActiveSupport.on_load :action_controller do
-          Ipfilter::Railtie.insert
+          IpFilter::Railtie.insert
         end
       end
     end

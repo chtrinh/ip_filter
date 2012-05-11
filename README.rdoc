@@ -1,6 +1,6 @@
-= Ipfilter
+= IpFilter
 
-Ipfilter is IP filtering solution for Ruby. Common use case for this is DRM. Uses a GeoIP (or Geo::IP) database to determine the request ip's location.
+IpFilter is IP filtering solution for Ruby. Common use case for this is DRM. Uses a GeoIP (or Geo::IP) database to determine the request ip's location.
 
 
 == Compatibility
@@ -16,7 +16,7 @@ Ipfilter is IP filtering solution for Ruby. Common use case for this is DRM. Use
 
 Add to your Gemfile:
 
-  gem "ipfilter"
+  gem "ip_filter"
 
 and run at the command prompt:
 
@@ -27,31 +27,31 @@ and run at the command prompt:
 
 At the command prompt:
 
-  rails plugin install git://github.com/chtrinh/ipfilter.git
+  rails plugin install git://github.com/chtrinh/ip_filter.git
 
 
 == Typical Rails Configuration
 
-  # config/initializers/ipfilter.rb
+  # config/initializers/ip_filter.rb
 
   # Location of GeoIP database file.
-  Ipfilter::Configuration.geo_ip_dat = "lib/assets/GeoIP.dat"
+  IpFilter::Configuration.geo_ip_dat = "lib/assets/GeoIP.dat"
 
   # Type of ip country code to compare by.
-  Ipfilter::Configuration.ip_code_type = "country_code2"
+  IpFilter::Configuration.ip_code_type = "country_code2"
 
   # Accepts a proc that must return an array with corresponding format as :ip_code_type
-  Ipfilter::Configuration.ip_codes = Proc.new { ["FI", "US", "GB"] }
+  IpFilter::Configuration.ip_codes = Proc.new { ["FI", "US", "GB"] }
 
   # Accepts a proc that must return an array of IPs to
-  Ipfilter::Configuration.ip_whitelist = Proc.new { ["22.33.11.44", "2.3.1.4"] }
+  IpFilter::Configuration.ip_whitelist = Proc.new { ["22.33.11.44", "2.3.1.4"] }
 
   # Exception to throw when IP is NOT allowed.
   # Accepts a Proc for fine-grain control of the appropriate response. 
-  Ipfilter::Configuration.ip_exception = Proc.new { raise Api::Exception::AuthorizationError.new("You region is blocked!") }
+  IpFilter::Configuration.ip_exception = Proc.new { raise Api::Exception::AuthorizationError.new("You region is blocked!") }
 
   # Cache object (Memcache only).
-  Ipfilter::Configuration.cache = Rails.cache
+  IpFilter::Configuration.cache = Rails.cache
 
 
 == Whitelist Ip
@@ -61,11 +61,11 @@ See above configuration.
 == Validate IP
 
 Add the following method to any controller to validate the <tt>Request#ip</tt>. 
-<tt>Ipfilter::Configuration.ip_exception</tt> is a +Proc+ which is called when ip is NOT within the specified region/country code and NOT in IP whitelist. You can pass in filter options similar to those in +before_filter+. 
+<tt>IpFilter::Configuration.ip_exception</tt> is a +Proc+ which is called when ip is NOT within the specified region/country code and NOT in IP whitelist. You can pass in filter options similar to those in +before_filter+. 
 
   validate_ip
 
-You can also pass a block (with filter options) to be executed when validation of ip fails like so (defaults to <tt>Ipfilter::Configuration.ip_exception</tt> proc if no block present): 
+You can also pass a block (with filter options) to be executed when validation of ip fails like so (defaults to <tt>IpFilter::Configuration.ip_exception</tt> proc if no block present): 
 
   validate_ip do 
     raise Exception.new "Sorry access not granted!"
@@ -75,7 +75,7 @@ By default, loopback/private network addresses are allowed. You can disable this
 
   #config/initializers/ipfilter.rb
 
-  Ipfilter::Configuration.allow_loopback = false
+  IpFilter::Configuration.allow_loopback = false
 
 
 == Skip validation of IP
@@ -92,19 +92,19 @@ Internally it is just <tt>skip_before_filter</tt> so filter options can be pass 
 
 == Request Geocoding by IP Address
 
-Ipfilter adds a +location+ method to the standard <tt>Rack::Request</tt> object so you can easily look up the location of any HTTP request by IP address. For example, in a Rails controller:
+IpFilter adds a +location+ method to the standard <tt>Rack::Request</tt> object so you can easily look up the location of any HTTP request by IP address. For example, in a Rails controller:
 
-  # returns Ipfilter::Result object
+  # returns IpFilter::Result object
   result = request.location
 
-See "Advanced Geocoding" below for more information about Ipfilter::Result objects.
+See "Advanced Geocoding" below for more information about IpFilter::Result objects.
 
 
 == Advanced Geocoding
 
 So far we have looked at shortcuts for assigning geocoding results to object attributes.
 
-Every <tt>Ipfilter::Result</tt> object, +result+, provides the following data:
+Every <tt>IpFilter::Result</tt> object, +result+, provides the following data:
 
 * <tt>result.ip</tt> - string
 * <tt>result.country_code</tt> - string
@@ -116,15 +116,15 @@ Every <tt>Ipfilter::Result</tt> object, +result+, provides the following data:
 
 == Caching
 
-It's easy to cache ip results with Ipfilter, just configure a cache store:
+It's easy to cache ip results with IpFilter, just configure a cache store:
 
-  Ipfilter::Configuration.cache = Rails.cache
+  IpFilter::Configuration.cache = Rails.cache
 
 Currently only Memcache is supported. 
 
 You can also set a custom prefix to be used for cache keys:
 
-  Ipfilter::Configuration.cache_prefix = "..."
+  IpFilter::Configuration.cache_prefix = "..."
 
 By default the prefix is <tt>ipfilter:</tt>
 
@@ -133,14 +133,14 @@ By default the prefix is <tt>ipfilter:</tt>
 
 == Use Outside of Rails
 
-You can use Ipfilter outside of Rails by calling the <tt>Ipfilter.search</tt> method:
+You can use IpFilter outside of Rails by calling the <tt>IpFilter.search</tt> method:
 
-  results = Ipfilter.search("147.243.3.83")
+  results = IpFilter.search("147.243.3.83")
 
-This returns an array of <tt>Ipfilter::Result</tt> objects. Please see above and in the code for details.
+This returns an array of <tt>IpFilter::Result</tt> objects. Please see above and in the code for details.
 
 
 == Acknowledgements
 
 The architecture/design of this gem is heavily based off of Geocoder (by Alex Reisner https://github.com/alexreisner/geocoder). 
-Whereas Geocoder was built with 3rd party API resources in mind, Ipfilter uses a local database file (.dat) similar to Geoip (by Clifford Heath https://github.com/cjheath/geoip).
+Whereas Geocoder was built with 3rd party API resources in mind, IpFilter uses a local database file (.dat) similar to Geoip (by Clifford Heath https://github.com/cjheath/geoip).

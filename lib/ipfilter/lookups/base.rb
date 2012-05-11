@@ -1,6 +1,6 @@
 require 'ipaddr'
 
-module Ipfilter
+module IpFilter
   module Lookup
     class Base
 
@@ -29,26 +29,26 @@ module Ipfilter
       # the region/country where the IP address is allocated.
       #
       # Takes a search string (eg: "205.128.54.202") for country info
-      # Returns an array of <tt>Ipfilter::Result</tt>s.
+      # Returns an array of <tt>IpFilter::Result</tt>s.
       def search(query)
         results(query, false).map { |r| result_class.new(r) }
       end
 
       private 
 
-      # Ipfilter::Result object or nil on timeout or other error.
+      # IpFilter::Result object or nil on timeout or other error.
       def results(query, reverse = false)
         raise NotImplementedError.new
       end
 
       # Class of the result objects.
       def result_class
-        Ipfilter::Result.const_get(self.class.to_s.split(":").last)
+        IpFilter::Result.const_get(self.class.to_s.split(":").last)
       end
 
       # The working Cache object.
       def cache
-        Ipfilter.cache
+        IpFilter.cache
       end
 
       # Checks if address is a loopback/private address range.
