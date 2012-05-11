@@ -4,7 +4,7 @@ require "ip_filter/version"
 
 Gem::Specification.new do |s|
   s.name        = "ip_filter"
-  s.version     = Ipfilter::VERSION
+  s.version     = IpFilter::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Chris Trinh"]
   s.email       = ["chris@synctv.com"]
