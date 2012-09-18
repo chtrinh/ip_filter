@@ -35,7 +35,7 @@ module IpFilter
   # Does not check for actual validity, just the appearance of four
   # dot-delimited numbers.
   def ip_address?(value)
-    !!value.to_s.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/)
+    !!value.to_s.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})(\/\d{1,2}){0,1}$/)
   end
 
   # Checks if value is blank.
