@@ -139,6 +139,10 @@ You can use IpFilter outside of Rails by calling the <tt>IpFilter.search</tt> me
 
 This returns an array of <tt>IpFilter::Result</tt> objects. Please see above and in the code for details.
 
+== Contributors
+
+Ihor Ratsyborynskyy
+
 
 == Acknowledgements
 
