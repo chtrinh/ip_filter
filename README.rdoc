@@ -43,8 +43,8 @@ At the command prompt:
   # Accepts a proc that must return an array with corresponding format as :ip_code_type
   IpFilter::Configuration.ip_codes = Proc.new { ["FI", "US", "GB"] }
 
-  # Accepts a proc that must return an array of IPs to
-  IpFilter::Configuration.ip_whitelist = Proc.new { ["22.33.11.44", "2.3.1.4"] }
+  # Accepts a proc that must return an array of IPs or IP range to
+  IpFilter::Configuration.ip_whitelist = Proc.new { ["22.33.11.0/24", "2.3.1.4"] }
 
   # Exception to throw when IP is NOT allowed.
   # Accepts a Proc for fine-grain control of the appropriate response. 

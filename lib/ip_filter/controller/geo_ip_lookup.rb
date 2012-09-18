@@ -1,12 +1,17 @@
 module IpFilter 
   module Controller
     module GeoIpLookup
+
+
       # Mix below class methods into ActionController.
       def self.included(base)
         base.send :include, InstanceMethods
         base.send :extend, ClassMethods
       end
 
+      #
+      # Class methods
+      #
       module ClassMethods
         def validate_ip(filter_options = {}, &block)
           if block 
@@ -38,7 +43,10 @@ module IpFilter
           @allow_loopback ||= IpFilter::Configuration.allow_loopback
         end
       end
-   
+
+      #
+      # Instance methods
+      #
       module InstanceMethods
         private
 
@@ -60,9 +68,16 @@ module IpFilter
         end
 
         def valid_ip?(ip)
-          Array.wrap(self.class.whitelist).include?(ip)
+          #go through each IP range and validate IP against it 
+          Array.wrap(self.class.whitelist).any? do |ip_range| 
+            IPAddr.new(ip_range).include?( ip )
+          end
         end
+
       end
+
+
+      #end of module
     end
   end
 end
