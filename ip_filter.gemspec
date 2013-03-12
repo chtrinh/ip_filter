@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
 require "ip_filter/version"
+require 'date'
 
 Gem::Specification.new do |s|
   s.name          = "ip_filter"
