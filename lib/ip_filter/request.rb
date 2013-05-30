@@ -4,7 +4,7 @@ module IpFilter
   module Request
     def location
       # For now just grab the first value as the best guess.
-      @location ||= IpFilter.search(ip).first
+      @location ||= IpFilter.search(remote_ip).first
     end
   end
 end

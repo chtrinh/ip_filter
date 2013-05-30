@@ -1,5 +1,10 @@
 Heroku Rails SaaS
 
+v0.0.4
+============================================
+Refactor validation of request - moved to IpFilter#ClassMethods
+Using ActionDispatch::Request#remote_ip instead of ActionDispatch::Request#ip to get ip address of the client outside of local proxies
+
 v0.0.3
 ============================================
 Add IP range support - Thanks Ihor!
